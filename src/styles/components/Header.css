@@ -1,0 +1,74 @@
+@import "../responsive.css";
+
+.header-container {
+  display: flex;
+
+  padding: 2rem;
+}
+
+
+/* -------------------- notification -------------------- */
+
+.header-notif-container {
+  flex: 1;
+
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  width: 100%;
+  height: 100%;
+
+  user-select: none;
+}
+
+.header-notif-icon {
+  width: 3rem;
+  height: 3rem;
+}
+
+.header-notif-text {
+  font-size: 1.25rem;
+}
+
+
+/* -------------------- profile -------------------- */
+
+.header-profile-container {
+  flex: 0 0 30%;
+
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  user-select: none;
+}
+
+.header-profile-avatar {
+  width: 3rem;
+  height: auto;
+
+  border-radius: .1rem;
+}
+
+.header-profile-username {
+  font-size: 1.5rem;
+}
+
+/* -------------------- time -------------------- */
+
+.header-time-container {
+  flex: 0 0 20%;
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  user-select: none;
+}
+
+.header-time-text {
+  font-size: 1.5rem;
+  letter-spacing: .2rem;
+}
+
