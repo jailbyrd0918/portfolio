@@ -2,6 +2,7 @@ import { useState, useEffect, KeyboardEvent, WheelEvent } from "react";
 import { RiNotificationBadgeFill } from "react-icons/ri";
 import { IoMdSettings  } from "react-icons/io";
 import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
+import { SettingsScreen } from "../screens";
 
 import "../styles/components/Menu.css";
 
@@ -17,6 +18,8 @@ const Menu = () => {
 
   const [ focusedIndex, setFocusedIndex ] = useState(0);
   const [ content, setContent ] = useState({});
+
+  const [ isSettingsScreenActive, setIsSettingsScreenActive ] = useState(false);
 
   const clamp = (value: number, min: number, max: number) => {
     return Math.max(min, Math.min(value, max));
@@ -39,6 +42,15 @@ const Menu = () => {
         setFocusedIndex(clamp(focusedIndex + 1, 0, tiles.length - 1));
         break;
         
+      case "a":
+        event.preventDefault();
+         
+        if (!isSettingsScreenActive) {
+          handleSettingsScreenOpen();
+        }
+
+        break;
+
       default:
         break;
     }
@@ -69,22 +81,38 @@ const Menu = () => {
     return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
   }
   
+  function handleSettingsScreenOpen () {
+    setIsSettingsScreenActive(true);
+  }
+
+  function handleSettingsScreenClose () {
+    setIsSettingsScreenActive(false);
+  }
+
   useEffect(() => {
-    document.addEventListener("keydown", handleKeyDown);
+    const atHome = !isSettingsScreenActive;
+    
+    const handleKeyDownWrapper = (event: KeyboardEvent) => {
+      if (atHome) {
+        handleKeyDown(event);
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDownWrapper);
 
     if (focusedIndex >= 0) {
       translate(focusedIndex);
     }   
 
-    fetch("/assets/desc.json")
+    fetch("/assets/json/desc.json")
     .then((response) => response.json())
     .then((data) => setContent(data))
     .catch(error => console.error(error));
 
     return () => {
-      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("keydown", handleKeyDownWrapper);
     }
-  }, [focusedIndex]);
+  }, [focusedIndex, isSettingsScreenActive]);
   
   return (
     <div className="menu-container">
@@ -95,7 +123,7 @@ const Menu = () => {
           <span className="function-item-label">Notifications</span>
         </button>
         <button className="function-item-container">
-          <img src="/assets/avatar.jpg" alt="icon" className="function-item-icon" /> 
+          <img src="/assets/images/avatar.jpg" alt="icon" className="function-item-icon" /> 
           <span className="function-item-label">Profile</span>
         </button>
         <button className="function-item-container">
@@ -116,7 +144,7 @@ const Menu = () => {
             autoFocus={index === focusedIndex}
           >
             <img 
-              src={`/assets/tile${clamp(index + 1, 0, 4)}.jpg`} 
+              src={`/assets/images/tile${clamp(index + 1, 0, 4)}.jpg`} 
               alt="thumbnail" className="content-item-thumbnail" 
             />
             <div className="content-item-footer-container">
@@ -142,6 +170,10 @@ const Menu = () => {
           </div>
         )) }
       </div>
+
+      {/* screens */}
+      <SettingsScreen isActive={isSettingsScreenActive} onClose={handleSettingsScreenClose} />
+
     </div>
   );
 }

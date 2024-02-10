@@ -232,7 +232,9 @@
   width: inherit;
 
   opacity: 1;
-  transition: visibility .75s, opacity .75s;
+  
+  transition: visibility .5s, opacity .5s;
+  transition-delay: .2s;
 }
 
 .contentinfo-item-title {

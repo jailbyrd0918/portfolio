@@ -16,6 +16,8 @@
   --color-indigo: #818cf8;
   --color-violet: #4c1d95;
 
+  --color-transparent: rgba(0, 0, 0, 0);
+
 
   /* ---------- sizes ---------- */
 
