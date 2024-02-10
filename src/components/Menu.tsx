@@ -1,4 +1,4 @@
-import { useState, useEffect, KeyboardEvent, WheelEvent } from "react";
+import { useState, useEffect, KeyboardEvent } from "react";
 import { RiNotificationBadgeFill } from "react-icons/ri";
 import { IoMdSettings } from "react-icons/io";
 import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
@@ -29,7 +29,9 @@ const Menu = () => {
   const [focusedIndex, setFocusedIndex] = useState(0);
   const [storedFocusIndex, setStoredFocusIndex] = useState(focusedIndex);
 
-  const [ funcFocusedIndex, setFuncFocusedIndex ] = useState(funcIndices.FUNC_IDX_NOTIF);
+  const [funcFocusedIndex, setFuncFocusedIndex] = useState(
+    funcIndices.FUNC_IDX_NOTIF
+  );
 
   const [content, setContent] = useState({});
   const [navIndex, setNavIndex] = useState(navIndices.NAV_IDX_CONTENT);
@@ -51,95 +53,6 @@ const Menu = () => {
     return (
       rem * parseFloat(getComputedStyle(document.documentElement).fontSize)
     );
-  };
-
-  const toFunctionTransition = () => {
-    setStoredFocusIndex(focusedIndex);
-    setFocusedIndex(-1);
-
-    const translateY = convertRemToPixel(25);
-    document.documentElement.style.setProperty("--content-opacity", ".5");
-    document.documentElement.style.setProperty("--content-move-y", `${translateY}px`);
-    document.documentElement.style.setProperty("--function-opacity", "1");
-    document.documentElement.style.setProperty("--header-profile-opacity", "0");
-  };
-  
-  const toContentTransition = () => {
-    setFocusedIndex(storedFocusIndex);
-    
-    document.documentElement.style.setProperty("--content-opacity", "1");
-    document.documentElement.style.setProperty("--content-move-y", `0px`);
-    document.documentElement.style.setProperty("--function-opacity", "0");
-    document.documentElement.style.setProperty("--header-profile-opacity", "1");
-  };
-
-  const handleKeyDownAtFunction = (event: KeyboardEvent) => {
-    switch (event.key) {
-      case "ArrowLeft":
-        setFuncFocusedIndex(clamp(funcFocusedIndex - 1, funcIndices.FUNC_IDX_NOTIF, funcIndices.FUNC_IDX_SETTINGS));
-        break;
-        
-        case "ArrowRight":
-        setFuncFocusedIndex(clamp(funcFocusedIndex + 1, funcIndices.FUNC_IDX_NOTIF, funcIndices.FUNC_IDX_SETTINGS));
-        break;
-
-      case "ArrowDown":
-        setNavIndex(navIndices.NAV_IDX_CONTENT);
-        toContentTransition();
-        break;
-
-      case "a":
-        if (!isSettingsScreenActive) {
-          handleSettingsScreenOpen();
-        }
-        break;
-
-      default:
-        break;
-    }
-  };
-
-  const handleKeyDownAtContent = (event: KeyboardEvent) => {
-    switch (event.key) {
-      case "ArrowLeft":
-        setFocusedIndex(clamp(focusedIndex - 1, 0, contents.length - 1));
-        break;
-
-      case "ArrowRight":
-        setFocusedIndex(clamp(focusedIndex + 1, 0, contents.length - 1));
-        break;
-
-      case "ArrowUp":
-        setNavIndex(navIndices.NAV_IDX_FUNCTION);
-        toFunctionTransition();
-        break;
-
-      case "a":
-        if (!isSettingsScreenActive) {
-          handleSettingsScreenOpen();
-        }
-        break;
-
-      default:
-        break;
-    }
-  };
-
-  const handleKeyDown = (event: KeyboardEvent) => {
-    event.preventDefault();
-
-    switch (navIndex) {
-      case navIndices.NAV_IDX_FUNCTION:
-        handleKeyDownAtFunction(event);
-        break;
-
-      case navIndices.NAV_IDX_CONTENT:
-        handleKeyDownAtContent(event);
-        break;
-
-      default:
-        break;
-    }
   };
 
   const autoAdjustMenuWidth = (index: number) => {
@@ -165,7 +78,127 @@ const Menu = () => {
     autoAdjustMenuWidth(index);
   };
 
-  /* ---------------------------------------- handles ---------------------------------------- */
+  /* ---------------------------------------- functions ---------------------------------------- */
+
+  const toFunctionTransition = () => {
+    setStoredFocusIndex(focusedIndex);
+    setFocusedIndex(-1);
+
+    const translateY = convertRemToPixel(25);
+    document.documentElement.style.setProperty("--content-opacity", ".5");
+    document.documentElement.style.setProperty(
+      "--content-move-y",
+      `${translateY}px`
+    );
+    document.documentElement.style.setProperty("--function-opacity", "1");
+    document.documentElement.style.setProperty("--header-profile-opacity", "0");
+  };
+
+  const toContentTransition = () => {
+    setFocusedIndex(storedFocusIndex);
+
+    document.documentElement.style.setProperty("--content-opacity", "1");
+    document.documentElement.style.setProperty("--content-move-y", `0px`);
+    document.documentElement.style.setProperty("--function-opacity", "0");
+    document.documentElement.style.setProperty("--header-profile-opacity", "1");
+  };
+
+  const handleInteractAtFunction = () => {
+    switch (funcFocusedIndex) {
+      case funcIndices.FUNC_IDX_NOTIF:
+        break;
+
+      case funcIndices.FUNC_IDX_PROFILE:
+        break;
+
+      case funcIndices.FUNC_IDX_SETTINGS:
+        handleSettingsScreenOpen();
+        break;
+
+      default:
+        break;
+    }
+  };
+
+  const handleKeyDownAtFunction = (event: KeyboardEvent) => {
+    switch (event.key) {
+      case "ArrowLeft":
+        setFuncFocusedIndex(
+          clamp(
+            funcFocusedIndex - 1,
+            funcIndices.FUNC_IDX_NOTIF,
+            funcIndices.FUNC_IDX_SETTINGS
+          )
+        );
+        break;
+
+      case "ArrowRight":
+        setFuncFocusedIndex(
+          clamp(
+            funcFocusedIndex + 1,
+            funcIndices.FUNC_IDX_NOTIF,
+            funcIndices.FUNC_IDX_SETTINGS
+          )
+        );
+        break;
+
+      case "ArrowDown":
+        setNavIndex(navIndices.NAV_IDX_CONTENT);
+        toContentTransition();
+        break;
+
+      case "Enter":
+        handleInteractAtFunction();
+        break;
+
+      default:
+        break;
+    }
+  };
+
+  const handleInteraceAtContent = () => {
+  }
+
+  const handleKeyDownAtContent = (event: KeyboardEvent) => {
+    switch (event.key) {
+      case "ArrowLeft":
+        setFocusedIndex(clamp(focusedIndex - 1, 0, contents.length - 1));
+        break;
+
+      case "ArrowRight":
+        setFocusedIndex(clamp(focusedIndex + 1, 0, contents.length - 1));
+        break;
+
+      case "ArrowUp":
+        setNavIndex(navIndices.NAV_IDX_FUNCTION);
+        toFunctionTransition();
+        break;
+
+      case "Enter":
+        handleInteraceAtContent();
+        break;
+
+      default:
+        break;
+    }
+  };
+
+  const handleKeyDown = (event: KeyboardEvent) => {
+    event.preventDefault();
+
+    switch (navIndex) {
+      case navIndices.NAV_IDX_FUNCTION:
+        handleKeyDownAtFunction(event);
+        break;
+
+      case navIndices.NAV_IDX_CONTENT:
+        handleKeyDownAtContent(event);
+        break;
+
+      default:
+        break;
+    }
+  };
 
   const handleFocus = (index: number) => {
     setFocusedIndex(index);
@@ -210,63 +243,69 @@ const Menu = () => {
     <div className="menu-container">
       {/* function */}
       <div className="function-container">
-        <button 
-          className="function-item-container" 
+        <button
+          className="function-item-container"
           autoFocus={funcFocusedIndex === funcIndices.FUNC_IDX_NOTIF}
         >
-          <RiNotificationBadgeFill 
-            className={
-              `${(funcFocusedIndex === funcIndices.FUNC_IDX_NOTIF) ? 
-                "function-item-icon-focused" : "function-item-icon"}`
-              } 
+          <RiNotificationBadgeFill
+            className={`${
+              funcFocusedIndex === funcIndices.FUNC_IDX_NOTIF
+                ? "function-item-icon-focused"
+                : "function-item-icon"
+            }`}
           />
-          <span 
-            className={
-              `${(funcFocusedIndex === funcIndices.FUNC_IDX_NOTIF) ? 
-                "function-item-label-focused" : "function-item-label"}`
-              }
+          <span
+            className={`${
+              funcFocusedIndex === funcIndices.FUNC_IDX_NOTIF
+                ? "function-item-label-focused"
+                : "function-item-label"
+            }`}
           >
             Notifications
           </span>
         </button>
-        
-        <button 
-          className="function-item-container" 
+
+        <button
+          className="function-item-container"
           autoFocus={funcFocusedIndex === funcIndices.FUNC_IDX_PROFILE}
         >
           <img
             src="/assets/images/avatar.jpg"
             alt="icon"
-            className={
-              `${(funcFocusedIndex === funcIndices.FUNC_IDX_PROFILE) ? 
-                "function-item-icon-focused" : "function-item-icon"}`
-              }
+            className={`${
+              funcFocusedIndex === funcIndices.FUNC_IDX_PROFILE
+                ? "function-item-icon-focused"
+                : "function-item-icon"
+            }`}
           />
-          <span 
-            className={
-              `${(funcFocusedIndex === funcIndices.FUNC_IDX_PROFILE) ? 
-                "function-item-label-focused" : "function-item-label"}`
-              }
+          <span
+            className={`${
+              funcFocusedIndex === funcIndices.FUNC_IDX_PROFILE
+                ? "function-item-label-focused"
+                : "function-item-label"
+            }`}
           >
             Profile
           </span>
         </button>
-        
-        <button 
-          className="function-item-container" 
+
+        <button
+          className="function-item-container"
           autoFocus={funcFocusedIndex === funcIndices.FUNC_IDX_SETTINGS}
         >
-          <IoMdSettings 
-            className={
-              `${(funcFocusedIndex === funcIndices.FUNC_IDX_SETTINGS) ? 
-                "function-item-icon-focused" : "function-item-icon"}`
-              }
+          <IoMdSettings
+            className={`${
+              funcFocusedIndex === funcIndices.FUNC_IDX_SETTINGS
+                ? "function-item-icon-focused"
+                : "function-item-icon"
+            }`}
           />
-          <span 
-            className={
-              `${(funcFocusedIndex === funcIndices.FUNC_IDX_SETTINGS) ? 
-                "function-item-label-focused" : "function-item-label"}`
-              }
+          <span
+            className={`${
+              funcFocusedIndex === funcIndices.FUNC_IDX_SETTINGS
+                ? "function-item-label-focused"
+                : "function-item-label"
+            }`}
           >
             Settings
           </span>
