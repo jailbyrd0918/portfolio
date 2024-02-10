@@ -16,6 +16,7 @@ const SettingsScreen = ({ isActive, onClose } : { isActive: boolean, onClose: ()
       case "a":
         {
           const settingsScreen = document.querySelector(".settings-screen");
+
           settingsScreen!.setAttribute("close", "");
 
           const animationDuration = 200;

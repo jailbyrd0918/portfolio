@@ -20,7 +20,7 @@
 
 
   /* ---------- sizes ---------- */
-
+  
   --size-xxs: 0.5rem;
   --size-xs: 0.75rem;
   --size-base: 1rem;
@@ -35,6 +35,12 @@
   --size-8xl: 6rem;
   --size-9xl: 8rem;
   --size-10xl: 10rem;
+  
+  
+  /* ---------- header ---------- */
+
+  --header-profile-opacity: 1; 
+
 }
 
 
@@ -60,6 +66,8 @@ body {
   background-color: var(--color-dark);
 
   overflow: hidden;
+
+  pointer-events: none;
 }
 
 body::-webkit-scrollbar {
