@@ -1,15 +1,17 @@
 import { useState, useEffect, KeyboardEvent } from "react";
 import { RiNotificationBadgeFill } from "react-icons/ri";
 
+import { useMainContext } from "../context/MainContext";
 import "../styles/components/Header.css";
 
 const Header = () => {
-  
   const [ currentTime, setCurrentTime ] = useState(new Date());
   
+  const { context } = useMainContext();
+  const { is24HourFormat } = context; 
+
   const latestNotif = "You have the latest notification";
   const username = "John Doe";
-  const is24HourFormat = false;
 
   useEffect(() => {
     const timeRefreshIntervalId = setInterval(() => {

@@ -22,7 +22,7 @@ const SettingsScreen = ({
 
     settingsScreen!.setAttribute("close", "");
 
-    const animationDuration = 200;
+    const animationDuration = 400;
     setTimeout(() => {
       settingsScreen!.removeAttribute("close");
       onClose();

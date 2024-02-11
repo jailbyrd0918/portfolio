@@ -2,11 +2,16 @@ import { useState, useEffect, KeyboardEvent } from "react";
 import { RiNotificationBadgeFill } from "react-icons/ri";
 import { IoMdSettings } from "react-icons/io";
 import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
-import { SettingsScreen } from "../screens";
 
 import "../styles/components/Menu.css";
 
-const Menu = () => {
+const Menu = ({
+  onSettingsScreen,
+  atHome,
+}: {
+  onSettingsScreen: (isActive: boolean) => void;
+  atHome: boolean;
+}) => {
   const contents = [
     "About",
     "Projects",
@@ -35,8 +40,6 @@ const Menu = () => {
 
   const [content, setContent] = useState({});
   const [navIndex, setNavIndex] = useState(navIndices.NAV_IDX_CONTENT);
-
-  const [isSettingsScreenActive, setIsSettingsScreenActive] = useState(false);
 
   /* ---------------------------------------- helpers ---------------------------------------- */
 
@@ -156,8 +159,7 @@ const Menu = () => {
     }
   };
 
-  const handleInteraceAtContent = () => {
-  }
+  const handleInteraceAtContent = () => {};
 
   const handleKeyDownAtContent = (event: KeyboardEvent) => {
     switch (event.key) {
@@ -205,22 +207,14 @@ const Menu = () => {
   };
 
   function handleSettingsScreenOpen() {
-    setIsSettingsScreenActive(true);
-  }
-
-  function handleSettingsScreenClose() {
-    setIsSettingsScreenActive(false);
+    onSettingsScreen(true);
   }
 
   /* ---------------------------------------- main ---------------------------------------- */
 
   useEffect(() => {
-    const atHome = !isSettingsScreenActive;
-
     const handleKeyDownWrapper = (event: KeyboardEvent) => {
-      if (atHome) {
-        handleKeyDown(event);
-      }
+      if (atHome) handleKeyDown(event);
     };
 
     document.addEventListener("keydown", handleKeyDownWrapper);
@@ -237,7 +231,7 @@ const Menu = () => {
     return () => {
       document.removeEventListener("keydown", handleKeyDownWrapper);
     };
-  }, [focusedIndex, isSettingsScreenActive, handleKeyDown]);
+  }, [focusedIndex, handleKeyDown]);
 
   return (
     <div className="menu-container">
@@ -354,12 +348,6 @@ const Menu = () => {
           </div>
         ))}
       </div>
-
-      {/* screens */}
-      <SettingsScreen
-        isActive={isSettingsScreenActive}
-        onClose={handleSettingsScreenClose}
-      />
     </div>
   );
 };

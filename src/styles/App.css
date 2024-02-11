@@ -10,14 +10,19 @@
   height: 100vh;
 }
 
-.header {
-  flex: 0 0 10%;
+.header-container {
+  transition: all .4s;
 }
 
-.menu {
-  flex-grow: 1;
+.menu-container {
+  transition: all .4s;
 }
 
-.footer {
-  flex: 0 0 20%;
+.settings-active .header-container {
+  opacity: 0;
+}
+
+.settings-active .menu-container {
+  transform: scale(.8);
+  opacity: 0;
 }

@@ -1,13 +1,30 @@
-import { useState, KeyboardEvent, useEffect } from "react";
+import { useState } from "react";
 
 import { Header, Menu } from "./components";
+import { SettingsScreen } from "./screens";
+
 import "./styles/App.css";
 
 const App = () => {
+  const [isSettingsScreenActive, setIsSettingsScreenActive] = useState(false);
+
+  const handleSettingsScreen = (isActive: boolean) => {
+    setIsSettingsScreenActive(isActive);
+  };
+
   return (
-    <div className="app-screen">
+    <div className={`app-screen ${isSettingsScreenActive ? "settings-active" : ""}`}>
       <Header />
-      <Menu />
+      <Menu 
+        onSettingsScreen={handleSettingsScreen}
+        atHome={!isSettingsScreenActive} 
+      />
+
+      {/* screens */}
+      <SettingsScreen
+        isActive={isSettingsScreenActive}
+        onClose={() => handleSettingsScreen(false)}
+      />
     </div>
   );
 }
