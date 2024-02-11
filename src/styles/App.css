@@ -11,11 +11,11 @@
 }
 
 .header-container {
-  transition: all .4s;
+  transition: all .3s;
 }
 
 .menu-container {
-  transition: all .4s;
+  transition: all .3s;
 }
 
 .settings-active .header-container {
