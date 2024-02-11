@@ -14,11 +14,13 @@ const App = () => {
 
   return (
     <div className={`app-screen ${isSettingsScreenActive ? "settings-active" : ""}`}>
-      <Header />
-      <Menu 
-        onSettingsScreen={handleSettingsScreen}
-        atHome={!isSettingsScreenActive} 
-      />
+      <div className="main-container">
+        <Header />
+        <Menu 
+          onSettingsScreen={handleSettingsScreen}
+          atHome={!isSettingsScreenActive} 
+        />
+      </div>
 
       {/* screens */}
       <SettingsScreen

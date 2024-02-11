@@ -10,19 +10,11 @@
   height: 100vh;
 }
 
-.header-container {
+.main-container {
   transition: all .3s;
 }
 
-.menu-container {
-  transition: all .3s;
-}
-
-.settings-active .header-container {
-  opacity: 0;
-}
-
-.settings-active .menu-container {
+.settings-active .main-container {
   transform: scale(.8);
   opacity: 0;
 }
