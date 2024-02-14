@@ -66,7 +66,6 @@ body {
   background-color: var(--color-dark);
 
   overflow: hidden;
-
   pointer-events: none;
 }
 

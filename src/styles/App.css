@@ -1,20 +1,51 @@
 @import "./responsive.css";
 
-.app-screen {
-  display: flex;
-  flex-direction: column;
-
-  margin: 0;
-  padding: 0;
-
-  height: 100vh;
+.page-transition-inner-exit {
+  opacity: 1;
+  transform: scale(1);
 }
 
-.main-container {
-  transition: all .3s;
-}
-
-.settings-active .main-container {
-  transform: scale(.8);
+.page-transition-inner-exit-active {
   opacity: 0;
+  transform: scale(1.2);
+
+  transition: all .25s;
 }
+
+.page-transition-inner-enter {
+  opacity: 0;
+  transform: scale(1.2);
+}
+
+.page-transition-inner-enter-active {
+  opacity: 1;
+  transform: scale(1);
+
+  transition: all .25s;
+}
+
+
+.page-transition-outer-exit {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.page-transition-outer-exit-active {
+  opacity: 0;
+  transform: scale(.8);
+
+  transition: all .25s;
+}
+
+.page-transition-outer-enter {
+  opacity: 0;
+  transform: scale(.8);
+}
+
+.page-transition-outer-enter-active {
+  opacity: 1;
+  transform: scale(1);
+
+  transition: all .25s;
+}
+
