@@ -55,29 +55,75 @@ const Notifications = ({
     return Math.max(min, Math.min(value, max));
   };
 
+  const toMillisecs = (value: number) => value * 1000;
+
+  const getDateTimeDifference = (targetDate: Date) => {
+    const currentDate = new Date();
+    const weekdays = 7;
+    const monthdays = 30;
+    
+    const timeDifference = currentDate.getTime() - targetDate.getTime();
+    const secondsInDay = toMillisecs(86400);
+    const secondsInWeek = weekdays * secondsInDay;
+    const secondsInMonth = monthdays * secondsInDay;
+    const time = targetDate.toISOString().split('T')[1];
+    
+    if (timeDifference < secondsInDay) {
+      return `Today, ${time}`;
+    } 
+    else if (timeDifference < (2 * secondsInDay)) {
+      return `Yesterday, ${time}`;
+    } 
+    else if (timeDifference < (weekdays * secondsInDay)) {
+      const daysAgo = Math.floor(timeDifference / secondsInDay);
+      return `${daysAgo} days ago`;
+    }
+    else if (timeDifference < (2 * secondsInWeek)) {
+      return "Last week";
+    }
+    else if (timeDifference < secondsInMonth) {
+      const weeksAgo = Math.floor(timeDifference / secondsInWeek);
+      return `${weeksAgo} weeks ago`;
+    } 
+    else if (currentDate.getFullYear() === targetDate.getFullYear()) {
+      const monthsAgo = currentDate.getMonth() - targetDate.getMonth();
+      return `${monthsAgo} months ago`;
+    } 
+    else {
+      const formattedDate = targetDate.toISOString().split('T')[0];
+      return `${formattedDate}, ${time}`;
+    }
+  };
+
   /* ---------------------------------------- functions ---------------------------------------- */
 
   const handleOpenSidebar = () => {
     setSidebarActive(true);
     document.documentElement.style.setProperty("--notif-sidebar-move-x", "0%");
     document.documentElement.style.setProperty("--notif-visibility", "visible");
-  }
-  
+  };
+
   const handleCloseSidebar = () => {
     setSidebarActive(false);
-    document.documentElement.style.setProperty("--notif-sidebar-move-x", "100%");
-    document.documentElement.style.setProperty("--notif-visibility", "collapse");
-    
+    document.documentElement.style.setProperty(
+      "--notif-sidebar-move-x",
+      "100%"
+    );
+    document.documentElement.style.setProperty(
+      "--notif-visibility",
+      "collapse"
+    );
+
     // reset the option index after closing the sidebar
     setTimeout(() => {
       setOptionIndex(0);
     }, 300);
-  }
+  };
 
   const handleDelete = () => {
     temp_notifs.splice(focusedIndex, 1);
     handleCloseSidebar();
-  }
+  };
 
   const handleInteractOptions = () => {
     switch (optionIndex) {
@@ -92,7 +138,7 @@ const Notifications = ({
       default:
         break;
     }
-  }
+  };
 
   const handleInteract = () => {
     handleOpenSidebar();
@@ -100,7 +146,7 @@ const Notifications = ({
 
   const handleFocus = (index: number) => {
     setFocusedIndex(clamp(index, 0, temp_notifs.length - 1));
-  }
+  };
 
   const handleKeyDownSidebar = (event: KeyboardEvent) => {
     event.preventDefault();
@@ -111,11 +157,23 @@ const Notifications = ({
         break;
 
       case "ArrowUp":
-        setOptionIndex(clamp(optionIndex - 1, optionIndices.OPTION_DELETE, optionIndices.OPTION_CANCEL));
+        setOptionIndex(
+          clamp(
+            optionIndex - 1,
+            optionIndices.OPTION_DELETE,
+            optionIndices.OPTION_CANCEL
+          )
+        );
         break;
 
       case "ArrowDown":
-        setOptionIndex(clamp(optionIndex + 1, optionIndices.OPTION_DELETE, optionIndices.OPTION_CANCEL));
+        setOptionIndex(
+          clamp(
+            optionIndex + 1,
+            optionIndices.OPTION_DELETE,
+            optionIndices.OPTION_CANCEL
+          )
+        );
         break;
 
       case "Enter":
@@ -125,7 +183,7 @@ const Notifications = ({
       default:
         break;
     }
-  }
+  };
 
   const handleKeyDownMain = (event: KeyboardEvent) => {
     switch (event.key) {
@@ -148,14 +206,14 @@ const Notifications = ({
       default:
         break;
     }
-  }
+  };
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (sidebarActive) handleKeyDownSidebar(event);
       else handleKeyDownMain(event);
     };
-    
+
     document.addEventListener("keydown", handleKeyDown);
 
     return () => {
@@ -171,8 +229,10 @@ const Notifications = ({
 
       <div className="notif-list">
         {temp_notifs.map((notif, index) => (
-          <button 
-            className={`${(index === focusedIndex) ? "notif-item-focused" : "notif-item"}`} 
+          <button
+            className={`${
+              index === focusedIndex ? "notif-item-focused" : "notif-item"
+            }`}
             autoFocus={index === focusedIndex}
             onFocus={() => handleFocus(index)}
           >
@@ -187,15 +247,23 @@ const Notifications = ({
       </div>
 
       <div className="notif-sidebar-container">
-        <button 
-          className={`${(optionIndex === optionIndices.OPTION_DELETE) ? "notif-sidebar-option-focused" : "notif-sidebar-option"}`}
+        <button
+          className={`${
+            optionIndex === optionIndices.OPTION_DELETE
+              ? "notif-sidebar-option-focused"
+              : "notif-sidebar-option"
+          }`}
           autoFocus={optionIndex === optionIndices.OPTION_DELETE}
         >
           Delete Notification
         </button>
-        
-        <button 
-          className={`${(optionIndex === optionIndices.OPTION_CANCEL) ? "notif-sidebar-option-focused" : "notif-sidebar-option"}`}
+
+        <button
+          className={`${
+            optionIndex === optionIndices.OPTION_CANCEL
+              ? "notif-sidebar-option-focused"
+              : "notif-sidebar-option"
+          }`}
           autoFocus={optionIndex === optionIndices.OPTION_CANCEL}
         >
           Cancel
