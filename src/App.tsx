@@ -62,7 +62,7 @@ const App = () => {
             <Route path="/" element={<Home handleRouteNavigation={handleRouteNavigation} />} />
 
             {/* functions */}
-            <Route path="/notifications" element={<Notifications />} />
+            <Route path="/notifications" element={<Notifications handleRouteNavigation={handleRouteNavigation} />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/settings" element={<Settings handleRouteNavigation={handleRouteNavigation} />} />
 

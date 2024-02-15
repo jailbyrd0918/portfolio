@@ -110,7 +110,7 @@
   gap: .5rem;
 
   min-width: 10rem;
-  min-height: 12rem;
+  min-height: 8rem;
 
   padding-bottom: 5rem;
   
@@ -326,6 +326,8 @@
 .contentinfo-item {
   visibility: collapse;
   opacity: 0;
+
+  height: 0;
 }
 
 .contentinfo-item-focused {

@@ -1,5 +1,10 @@
 import { ReactNode, createContext, useContext, useState } from "react";
 
+interface Notification {
+  message: string,
+  datetime: string
+}
+
 interface Context {
   settings: {
     time: {
@@ -14,7 +19,7 @@ interface Context {
     },
   },
   data: {
-    notifications: string[],
+    notifications: Notification[],
     profile: {
       username: string,
     },

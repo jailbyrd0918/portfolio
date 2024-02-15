@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import { useState, useEffect, KeyboardEvent } from "react";
 
 import { RiNotificationBadgeFill } from "react-icons/ri";
@@ -317,7 +316,7 @@ const Home = ({
     setDisplayUsername(username !== "" ? username : DEFAULT_USERNAME);
     setDisplayNotif(
       notifications.length !== 0
-        ? notifications[notifications.length - 1]
+        ? notifications[notifications.length - 1].message
         : NO_NOTIF
     );
   }, [username, notifications]);

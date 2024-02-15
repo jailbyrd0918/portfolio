@@ -1,0 +1,139 @@
+@import "../responsive.css";
+
+:root {
+  --notif-sidebar-move-x: 100%;
+  --notif-visibility: collapse;
+}
+
+.notif-container {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  height: 100%;
+}
+
+/* -------------------- header -------------------- */
+
+.notif-header {
+  padding: 1rem;
+  border-bottom: 1px solid var(--color-light);
+}
+
+.notif-title {
+  font-weight: 400;  
+}
+
+/* -------------------- list -------------------- */
+
+.notif-list {
+  display: flex;
+  flex-direction: column;
+
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+
+  padding-top: 2rem;
+  padding-left: 20%;
+  padding-right: 20%;
+
+  scrollbar-width: thin !important;
+
+  transition: all .3s;
+}
+
+.notif-item {
+  min-height: auto;
+
+  display: flex;
+  flex-direction: column;
+
+  border: 2px solid var(--color-transparent);
+  border-bottom: 1px solid var(--color-slate600);
+
+  color: var(--color-light);
+  background-color: var(--color-transparent);
+
+  transition: all .3s;
+}
+
+.notif-item-focused {
+  min-height: auto;
+
+  display: flex;
+  flex-direction: column;
+
+  border: 2px solid var(--color-light);
+
+  color: var(--color-light);
+  background-color: var(--color-transparent);
+}
+
+.notif-message-container {
+  flex: 1;
+
+  padding-bottom: 1rem;
+
+  text-align: left;
+}
+
+.notif-message {
+  font-weight: 200;
+  word-spacing: .1rem;
+  letter-spacing: .05rem;
+}
+
+.notif-datetime-container {
+  text-align: right;
+}
+
+.notif-datetime {
+  font-weight: 400;
+  word-spacing: .1rem;
+  letter-spacing: .1rem;
+}
+
+/* -------------------- sidebar -------------------- */
+
+.notif-sidebar-container {
+  position: absolute;
+  
+  top: 0;
+  right: 0;
+
+  width: 25%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  
+  background-color: #020617;
+
+  visibility: var(--notif-visibility);
+  transform: translateX(var(--notif-sidebar-move-x));
+
+  transition: all .3s;
+}
+
+.notif-sidebar-option {
+  padding: .5rem;
+
+  border: 2px solid var(--color-transparent);
+
+  color: var(--color-light);
+  background-color: var(--color-transparent);
+}
+
+.notif-sidebar-option-focused {
+  padding: .5rem;
+
+  border: 2px solid var(--color-light);
+
+  color: var(--color-light);
+  background-color: var(--color-transparent);
+}
+
